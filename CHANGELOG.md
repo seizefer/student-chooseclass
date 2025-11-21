@@ -1,5 +1,155 @@
 # 更新日志 / Changelog
 
+## [v1.3.0] - 2024-11-21
+
+### 新增 Added
+- ✅ **项目结构优化**
+  - 删除 node_modules (15,777 文件, 193MB)
+  - 删除重复的 app/ 目录
+  - 创建 .gitignore 文件
+  - 整理测试文件到 tests/ 目录
+  - 整理文档到 docs/ 目录
+  - 项目从 15,882 文件精简到 79 文件
+
+- ✅ **个人资料管理** (profile/index.vue)
+  - 用户信息查看与编辑
+  - 头像上传功能
+  - 密码修改功能
+  - 邮箱验证状态
+
+- ✅ **好友系统完整UI** (friends/*.vue)
+  - 好友列表管理 (FriendList.vue)
+  - 好友请求处理 (FriendRequests.vue)
+  - 好友推荐功能 (FriendRecommendations.vue)
+
+- ✅ **交易记录系统** (transactions/History.vue)
+  - 交易历史查询
+  - 筛选与分页
+  - 统计信息展示
+
+- ✅ **通知中心** (notifications/index.vue + notifications.py)
+  - 通知列表展示
+  - 未读/已读状态管理
+  - 按类型筛选
+  - 全部已读/清空功能
+
+- ✅ **管理员面板** (admin/*.vue)
+  - 管理控制台 (Dashboard.vue) - ECharts 图表
+  - 用户管理 (UserManagement.vue) - CRUD 操作
+  - 课程管理 (CourseManagement.vue) - 含先修课程
+
+- ✅ **文件上传系统** (upload.py)
+  - 头像上传 (JPG/PNG/GIF/WebP, 2MB限制)
+  - 课程资料上传 (PDF/Word, 10MB限制)
+  - 文件获取与删除
+
+- ✅ **密码重置流程** (password_reset.py)
+  - 忘记密码邮件发送
+  - 重置令牌验证
+  - 新密码设置
+
+- ✅ **邮箱验证** (password_reset.py)
+  - 发送验证邮件
+  - 令牌验证
+  - 验证状态更新
+
+- ✅ **WebSocket 实时通信** (websocket.py)
+  - 连接管理器
+  - 实时聊天消息
+  - 在线状态检测
+  - 消息已读回执
+  - 系统通知推送
+
+- ✅ **课程验证工具** (course_validation.py)
+  - 时间冲突检测
+  - 先修课程验证
+  - 容量检查
+  - 综合选课验证
+
+### 修改 Changed
+- 🔄 版本号升级到 v1.3.0
+- 🔄 前端路由配置更新 (新增 9 个路由)
+- 🔄 后端 API 路由更新 (新增 4 个模块)
+
+### 技术改进 Technical Improvements
+- 🎨 **前端组件开发**
+  - 9 个新 Vue 组件
+  - Element Plus UI 组件库
+  - ECharts 图表集成
+  - dayjs 日期处理
+- 🛡️ **后端功能扩展**
+  - 5 个新 API 模块
+  - WebSocket 支持
+  - 文件上传处理
+  - 令牌管理系统
+- 📊 **项目清理**
+  - 代码量减少 99%
+  - 结构更清晰
+  - 开发体验提升
+
+### 重要文件版本信息 File Versions
+- `frontend/src/views/profile/index.vue` - v1.3.0 (新增)
+- `frontend/src/views/friends/FriendList.vue` - v1.3.0 (新增)
+- `frontend/src/views/friends/FriendRequests.vue` - v1.3.0 (新增)
+- `frontend/src/views/friends/FriendRecommendations.vue` - v1.3.0 (新增)
+- `frontend/src/views/transactions/History.vue` - v1.3.0 (新增)
+- `frontend/src/views/notifications/index.vue` - v1.3.0 (新增)
+- `frontend/src/views/admin/Dashboard.vue` - v1.3.0 (新增)
+- `frontend/src/views/admin/UserManagement.vue` - v1.3.0 (新增)
+- `frontend/src/views/admin/CourseManagement.vue` - v1.3.0 (新增)
+- `backend/app/api/v1/endpoints/notifications.py` - v1.3.0 (新增)
+- `backend/app/api/v1/endpoints/upload.py` - v1.3.0 (新增)
+- `backend/app/api/v1/endpoints/password_reset.py` - v1.3.0 (新增)
+- `backend/app/api/v1/endpoints/websocket.py` - v1.3.0 (新增)
+- `backend/app/utils/course_validation.py` - v1.3.0 (新增)
+
+### API端点更新 API Endpoints
+```
+通知系统 (notifications):
+  GET    /api/v1/notifications              获取通知列表
+  GET    /api/v1/notifications/unread/count 未读数量
+  PUT    /api/v1/notifications/{id}/read    标记已读
+  PUT    /api/v1/notifications/read-all     全部已读
+  DELETE /api/v1/notifications/{id}         删除通知
+  DELETE /api/v1/notifications/clear        清空通知
+  POST   /api/v1/notifications              创建通知(管理员)
+
+文件上传 (upload):
+  POST   /api/v1/upload/avatar              上传头像
+  POST   /api/v1/upload/course-material     上传课程资料
+  GET    /api/v1/upload/files/{category}/{filename} 获取文件
+  DELETE /api/v1/upload/files/{category}/{filename} 删除文件
+
+密码管理 (password):
+  POST   /api/v1/password/forgot-password   忘记密码
+  POST   /api/v1/password/verify-reset-token 验证令牌
+  POST   /api/v1/password/reset-password    重置密码
+  POST   /api/v1/password/send-verification 发送验证邮件
+  POST   /api/v1/password/verify-email      验证邮箱
+
+实时通信 (websocket):
+  WS     /api/v1/ws                         WebSocket连接
+  GET    /api/v1/online-count               在线用户数
+  GET    /api/v1/online-users               在线用户列表
+  GET    /api/v1/is-online/{user_id}        检查用户在线
+
+总计API端点: 60+ 个 (新增20个)
+```
+
+### 功能特性 Features
+- 👤 **个人中心** - 完整的用户资料管理
+- 🤝 **好友管理** - 好友列表、请求、推荐
+- 💰 **交易记录** - 历史查询与统计
+- 🔔 **通知中心** - 多类型通知管理
+- 🛠️ **管理面板** - 用户/课程管理与统计
+- 📁 **文件上传** - 头像与课程资料
+- 🔐 **密码重置** - 完整的找回密码流程
+- 📧 **邮箱验证** - 账号安全验证
+- 💬 **实时通信** - WebSocket 消息推送
+- ⚡ **冲突检测** - 课程时间与先修验证
+
+---
+
 ## [v1.2.0] - 2024-12-06
 
 ### 新增 Added
