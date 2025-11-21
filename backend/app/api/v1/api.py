@@ -23,6 +23,7 @@ from fastapi import APIRouter
 
 from app.api.v1.endpoints import auth, courses, departments, enrollments
 from app.api.v1.endpoints import friendships, transactions, messages, students
+from app.api.v1.endpoints import notifications, upload, password_reset, websocket
 
 api_router = APIRouter()
 
@@ -48,4 +49,16 @@ api_router.include_router(friendships.router, prefix="/friendships", tags=["好�
 api_router.include_router(transactions.router, prefix="/transactions", tags=["转账系统"])
 
 # 消息系统路由
-api_router.include_router(messages.router, prefix="/messages", tags=["消息系统"]) 
+api_router.include_router(messages.router, prefix="/messages", tags=["消息系统"])
+
+# 通知系统路由
+api_router.include_router(notifications.router, prefix="/notifications", tags=["通知系统"])
+
+# 文件上传路由
+api_router.include_router(upload.router, prefix="/upload", tags=["文件上传"])
+
+# 密码重置路由
+api_router.include_router(password_reset.router, prefix="/password", tags=["密码管理"])
+
+# WebSocket 路由
+api_router.include_router(websocket.router, tags=["实时通信"]) 
