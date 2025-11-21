@@ -283,4 +283,5 @@ backend/app/schemas/__pycache__/
 backend/app/utils/__pycache__/
 frontend/node_modules/
 frontend/dist/
-*.loglogs/
+*.log
+logs/
