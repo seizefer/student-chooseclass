@@ -17,7 +17,7 @@
 student-chooseclass/
 ├── README.md           # 📖 项目说明
 ├── start.ps1           # 🚀 快速启动脚本
-├── main_simple.py      # 🔧 后端启动文件 (位置正确)
+├── backend/main.py     # 🔧 后端启动文件
 ├── check_status.py     # 🔍 状态检查脚本
 ├── 完整测试报告.md      # 📊 详细测试结果
 ├── CHANGELOG.md        # 📝 版本更新日志
@@ -37,7 +37,7 @@ student-chooseclass/
 | **启动脚本** | ✅ 已优化 | `start.ps1` |
 
 ### ⚠️ 需要注意的问题
-1. **文件位置**: `main_simple.py` 在项目根目录，不是backend目录
+1. **文件位置**: `backend/main.py` 是后端启动文件
 2. **前端启动**: 需要在 `frontend/` 目录下运行 `npm run dev`
 3. **端口分配**: 前端会自动选择可用端口 (3000/3001/3002等)
 
@@ -46,9 +46,9 @@ student-chooseclass/
 ### 方法1: 手动启动 (推荐)
 ```bash
 # 终端1: 启动后端
-python main_simple.py
+python backend/main.py
 
-# 终端2: 启动前端  
+# 终端2: 启动前端
 cd frontend
 npm run dev
 ```
@@ -75,7 +75,7 @@ powershell -ExecutionPolicy Bypass -File start.ps1
 ## 🔍 问题排查
 
 ### 如果后端无法访问:
-1. 确认从项目根目录运行: `python main_simple.py`
+1. 确认从项目根目录运行: `python backend/main.py`
 2. 检查端口占用: `netstat -ano | findstr :8000`
 3. 查看错误信息
 
@@ -96,4 +96,4 @@ powershell -ExecutionPolicy Bypass -File start.ps1
 2. 通过正确的路径启动服务
 3. 获得更好的开发体验
 
-**下次启动直接运行**: `python main_simple.py` 然后 `cd frontend; npm run dev` 即可！ 
+**下次启动直接运行**: `python backend/main.py` 然后 `cd frontend; npm run dev` 即可！ 

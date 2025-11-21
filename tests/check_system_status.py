@@ -158,7 +158,7 @@ def check_system_files():
     import os
     
     critical_files = [
-        "main_with_auth.py",
+        "backend/main.py",
         "frontend/index.html", 
         "frontend/src/main.js",
         "frontend/src/stores/auth.js",
@@ -212,7 +212,7 @@ def main():
         print("\n⚠️ 系统还有问题需要解决")
         
         if not backend_ok:
-            print("💡 请检查后端服务是否正在运行: python main_with_auth.py")
+            print("💡 请检查后端服务是否正在运行: python backend/main.py")
         if not frontend_ok:
             print("💡 请检查前端服务是否正在运行: cd frontend && npm run dev")
 

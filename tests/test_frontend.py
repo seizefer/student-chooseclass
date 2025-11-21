@@ -91,7 +91,7 @@ def test_backend():
             print(f"❌ {url} - 错误: {e}")
     
     if not backend_working:
-        print("⚠️ 后端服务未运行，请启动: python main_simple.py")
+        print("⚠️ 后端服务未运行，请启动: python backend/main.py")
     
     return backend_working
 

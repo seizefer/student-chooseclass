@@ -25,7 +25,7 @@
 ### 方法1: 分别启动 (推荐)
 ```bash
 # 终端1: 启动带认证功能的后端
-python main_with_auth.py
+python backend/main.py
 
 # 终端2: 启动前端
 cd frontend
@@ -100,7 +100,7 @@ python 项目完整性检查.py
 student-chooseclass/
 ├── 📄 README.md              # 项目说明  
 ├── 🚀 start.ps1              # 一键启动脚本
-├── 🔧 main_with_auth.py       # 带认证功能的后端 ✅
+├── backend/main.py           # 带认证功能的后端 ✅
 ├── 🧪 test_frontend.py        # 前端测试脚本
 ├── 🔐 test_login.py           # 登录测试脚本 ✅
 ├── 📊 项目完整性检查.py        # 完整性检查
@@ -133,7 +133,7 @@ student-chooseclass/
 3. 运行测试: `python test_frontend.py`
 
 ### 如果后端无法访问
-1. 确认服务启动: `python main_with_auth.py`
+1. 确认服务启动: `python backend/main.py`
 2. 检查端口占用: `netstat -ano | findstr :8000`
 3. 访问健康检查: http://localhost:8000/health
 

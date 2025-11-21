@@ -15,7 +15,7 @@ def check_backend_files():
     print("🔧 检查后端文件...")
     
     backend_files = [
-        "main_simple.py",
+        "backend/main.py",
         "backend/app/__init__.py",
         "backend/app/main.py", 
         "backend/app/db/mysql_client.py",
@@ -188,7 +188,7 @@ def generate_report():
     if backend_ok and frontend_ok:
         print("\n🎉 项目核心文件完整，可以正常运行！")
         print("\n🔗 快速启动:")
-        print("   后端: python main_simple.py")
+        print("   后端: python backend/main.py")
         print("   前端: cd frontend && npm run dev")
         print("   测试: python test_frontend.py")
     else:

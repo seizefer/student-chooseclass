@@ -124,7 +124,7 @@ def main():
         
         if not api_ok:
             print("\n💡 建议:")
-            print("   1. 启动API服务: python main_simple.py")
+            print("   1. 启动API服务: python backend/main.py")
             print("   2. 检查端口8000是否被占用")
             print("   3. 查看错误日志")
     
