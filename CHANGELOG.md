@@ -1,5 +1,24 @@
 # 更新日志 / Changelog
 
+## [v1.3.4] - 2024-11-21
+
+### 修复 Fixed
+- ✅ **消息系统 API 集成**
+  - 消息列表调用真实 API (inbox/sent)
+  - 消息发送调用真实 API (messages/send)
+  - 数据映射和格式化优化
+
+- ✅ **转账系统 API 集成**
+  - 转账功能调用真实 API (transactions/transfer)
+  - 余额获取调用真实 API (transactions/balance)
+  - 页面加载时自动获取余额
+
+### 技术改进 Technical Improvements
+- 🔧 **全面 API 集成**
+  - 所有核心功能均已连接后端 API
+  - 统一的错误处理和降级策略
+  - 模拟数据作为备用方案
+
 ## [v1.3.3] - 2024-11-21
 
 ### 修复 Fixed

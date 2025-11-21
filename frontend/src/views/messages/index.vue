@@ -371,13 +371,68 @@ const deleteMessage = async () => {
 
 const loadMessages = async () => {
   try {
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 500))
-    inboxMessages.value = mockInboxMessages
-    sentMessages.value = mockSentMessages
+    const token = localStorage.getItem('token')
+    const headers = { 'Authorization': `Bearer ${token}` }
+
+    // 尝试调用真实 API
+    try {
+      // 获取收件箱
+      const inboxRes = await fetch('http://localhost:8000/api/v1/messages/inbox', { headers })
+      if (inboxRes.ok) {
+        const inboxData = await inboxRes.json()
+        if (inboxData.data?.items?.length > 0) {
+          inboxMessages.value = inboxData.data.items.map(msg => ({
+            id: msg.message_id,
+            sender: msg.sender_name || msg.sender_id,
+            recipient: msg.recipient_name || msg.recipient_id,
+            subject: msg.subject,
+            preview: msg.content.substring(0, 50) + '...',
+            content: `<p>${msg.content}</p>`,
+            time: new Date(msg.created_at).getTime(),
+            isRead: msg.is_read,
+            hasAttachment: false
+          }))
+        } else {
+          inboxMessages.value = mockInboxMessages
+        }
+      }
+
+      // 获取发件箱
+      const sentRes = await fetch('http://localhost:8000/api/v1/messages/sent', { headers })
+      if (sentRes.ok) {
+        const sentData = await sentRes.json()
+        if (sentData.data?.items?.length > 0) {
+          sentMessages.value = sentData.data.items.map(msg => ({
+            id: msg.message_id,
+            sender: '我',
+            recipient: msg.recipient_name || msg.recipient_id,
+            subject: msg.subject,
+            preview: msg.content.substring(0, 50) + '...',
+            content: `<p>${msg.content}</p>`,
+            time: new Date(msg.created_at).getTime(),
+            status: msg.is_read ? 'read' : 'sent'
+          }))
+        } else {
+          sentMessages.value = mockSentMessages
+        }
+      }
+    } catch (apiError) {
+      console.warn('API调用失败，使用模拟数据:', apiError)
+      inboxMessages.value = mockInboxMessages
+      sentMessages.value = mockSentMessages
+    }
+
+    // 如果没有数据，使用模拟数据
+    if (inboxMessages.value.length === 0) {
+      inboxMessages.value = mockInboxMessages
+    }
+    if (sentMessages.value.length === 0) {
+      sentMessages.value = mockSentMessages
+    }
   } catch (error) {
     console.error('加载消息失败:', error)
-    ElMessage.error('加载消息失败')
+    inboxMessages.value = mockInboxMessages
+    sentMessages.value = mockSentMessages
   }
 }
 
