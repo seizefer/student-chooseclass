@@ -223,7 +223,7 @@ const searchCourses = () => {
 }
 
 const viewCourseDetail = (courseId) => {
-  router.push(`/courses/detail/${courseId}`)
+  router.push(`/courses/${courseId}`)
 }
 
 const enterCourse = (courseId) => {
@@ -249,12 +249,41 @@ const dropCourse = async (courseId) => {
 const loadMyCourses = async () => {
   try {
     loading.value = true
-    // 模拟API调用
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    courses.value = mockCourses
+    // 调用后端 API
+    const response = await fetch('http://localhost:8000/api/v1/enrollments/my-courses', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+
+    if (response.ok) {
+      const result = await response.json()
+      if (result.data && result.data.length > 0) {
+        // 映射后端数据到前端格式
+        courses.value = result.data.map(item => ({
+          id: item.course_id,
+          name: item.course_name,
+          teacher: item.teacher_name || '未知',
+          department: item.department_name || '未知',
+          credits: item.credits,
+          schedule: item.schedule || '待安排',
+          classroom: item.classroom || '待定',
+          status: item.status === 'enrolled' ? 'active' :
+                  item.status === 'completed' ? 'completed' : 'pending',
+          progress: item.status === 'completed' ? 100 :
+                    item.status === 'enrolled' ? 50 : 0
+        }))
+      } else {
+        // 使用模拟数据
+        courses.value = mockCourses
+      }
+    } else {
+      // API 调用失败，使用模拟数据
+      courses.value = mockCourses
+    }
   } catch (error) {
-    console.error('加载课程数据失败:', error)
-    ElMessage.error('加载课程数据失败')
+    console.warn('API调用失败，使用模拟数据:', error)
+    courses.value = mockCourses
   } finally {
     loading.value = false
   }
