@@ -24,16 +24,24 @@ const ComposeMessage = () => import('@/views/messages/Compose.vue')
 // 交易相关组件
 const TransferMoney = () => import('@/views/transactions/Transfer.vue')
 
-// 暂时注释掉不存在的组件 - 需要后续创建
-// const CourseDetail = () => import('@/views/courses/Detail.vue')
-// const FriendList = () => import('@/views/friends/List.vue')
-// const FriendRequests = () => import('@/views/friends/Requests.vue')
-// const FriendRecommendations = () => import('@/views/friends/Recommendations.vue')
-// const TransactionHistory = () => import('@/views/transactions/History.vue')
-// const Balance = () => import('@/views/transactions/Balance.vue')
-// const Inbox = () => import('@/views/messages/Inbox.vue')
-// const Sent = () => import('@/views/messages/Sent.vue')
-// const Profile = () => import('@/views/profile/index.vue')
+// 个人资料
+const Profile = () => import('@/views/profile/index.vue')
+
+// 好友相关组件
+const FriendList = () => import('@/views/friends/FriendList.vue')
+const FriendRequests = () => import('@/views/friends/FriendRequests.vue')
+const FriendRecommendations = () => import('@/views/friends/FriendRecommendations.vue')
+
+// 交易历史
+const TransactionHistory = () => import('@/views/transactions/History.vue')
+
+// 通知系统
+const Notifications = () => import('@/views/notifications/index.vue')
+
+// 管理面板
+const AdminDashboard = () => import('@/views/admin/Dashboard.vue')
+const UserManagement = () => import('@/views/admin/UserManagement.vue')
+const CourseManagement = () => import('@/views/admin/CourseManagement.vue')
 
 const routes = [
   {
@@ -139,9 +147,118 @@ const routes = [
         path: 'transfer',
         name: 'TransferMoney',
         component: TransferMoney,
-        meta: { 
+        meta: {
           title: '转账汇款',
-          icon: 'el-icon-money' 
+          icon: 'el-icon-money'
+        }
+      },
+      {
+        path: 'history',
+        name: 'TransactionHistory',
+        component: TransactionHistory,
+        meta: {
+          title: '交易记录',
+          icon: 'el-icon-document'
+        }
+      }
+    ]
+  },
+  {
+    path: '/profile',
+    component: Layout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'Profile',
+        component: Profile,
+        meta: {
+          title: '个人资料',
+          icon: 'el-icon-user'
+        }
+      }
+    ]
+  },
+  {
+    path: '/friends',
+    component: Layout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'FriendList',
+        component: FriendList,
+        meta: {
+          title: '好友列表',
+          icon: 'el-icon-user'
+        }
+      },
+      {
+        path: 'requests',
+        name: 'FriendRequests',
+        component: FriendRequests,
+        meta: {
+          title: '好友请求',
+          icon: 'el-icon-bell'
+        }
+      },
+      {
+        path: 'recommendations',
+        name: 'FriendRecommendations',
+        component: FriendRecommendations,
+        meta: {
+          title: '推荐好友',
+          icon: 'el-icon-star-on'
+        }
+      }
+    ]
+  },
+  {
+    path: '/notifications',
+    component: Layout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'Notifications',
+        component: Notifications,
+        meta: {
+          title: '通知中心',
+          icon: 'el-icon-bell'
+        }
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    component: Layout,
+    meta: { requiresAuth: true, requiresAdmin: true },
+    children: [
+      {
+        path: '',
+        name: 'AdminDashboard',
+        component: AdminDashboard,
+        meta: {
+          title: '管理控制台',
+          icon: 'el-icon-setting'
+        }
+      },
+      {
+        path: 'users',
+        name: 'UserManagement',
+        component: UserManagement,
+        meta: {
+          title: '用户管理',
+          icon: 'el-icon-user'
+        }
+      },
+      {
+        path: 'courses',
+        name: 'CourseManagement',
+        component: CourseManagement,
+        meta: {
+          title: '课程管理',
+          icon: 'el-icon-reading'
         }
       }
     ]
