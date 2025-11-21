@@ -1,5 +1,38 @@
 # 更新日志 / Changelog
 
+## [v1.3.2] - 2024-11-21
+
+### 新增 Added
+- ✅ **API 模块封装** (frontend/src/api/)
+  - `courses.js` - 课程模块 API (CRUD, 搜索)
+  - `enrollments.js` - 选课模块 API (选课, 退课, 成绩)
+  - `friends.js` - 好友模块 API (申请, 列表, 推荐)
+  - `messages.js` - 消息模块 API (收发, 已读)
+  - `notifications.js` - 通知模块 API (列表, 清空)
+  - `transactions.js` - 转账模块 API (转账, 余额)
+  - `index.js` - 统一导出
+
+- ✅ **公共组件** (frontend/src/components/)
+  - `LoadingSpinner.vue` - 加载动画组件 (支持全屏)
+  - `PageHeader.vue` - 页面头部组件 (返回按钮, 标签)
+
+- ✅ **课程列表增强** (List.vue v1.1.0)
+  - 搜索关键词过滤 (课程名/教师/课程号)
+  - 院系下拉筛选
+  - 学期下拉筛选
+  - 状态下拉筛选
+  - 分页功能 (支持页码/每页数量)
+  - 后端 API 调用集成
+  - 选课人数实时显示
+  - 响应式布局优化
+
+### 技术改进 Technical Improvements
+- 🎨 **前端架构优化**
+  - API 模块化管理
+  - 公共组件抽取
+  - 代码复用性提升
+  - TypeScript 友好
+
 ## [v1.3.1] - 2024-11-21
 
 ### 新增 Added
