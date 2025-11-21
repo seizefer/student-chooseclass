@@ -16,6 +16,7 @@ const Dashboard = () => import('@/views/dashboard/index.vue')
 // 课程相关组件
 const CourseList = () => import('@/views/courses/List.vue')
 const MyCourses = () => import('@/views/courses/MyCourses.vue')
+const CourseDetail = () => import('@/views/courses/CourseDetail.vue')
 
 // 消息相关组件
 const Messages = () => import('@/views/messages/index.vue')
@@ -106,9 +107,18 @@ const routes = [
         path: 'my-courses',
         name: 'MyCourses',
         component: MyCourses,
-        meta: { 
+        meta: {
           title: '我的课程',
-          icon: 'el-icon-reading' 
+          icon: 'el-icon-reading'
+        }
+      },
+      {
+        path: ':id',
+        name: 'CourseDetail',
+        component: CourseDetail,
+        meta: {
+          title: '课程详情',
+          icon: 'el-icon-document'
         }
       }
     ]

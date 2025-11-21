@@ -1,13 +1,31 @@
 <template>
   <div class="friends-container">
+    <!-- 快捷导航 -->
+    <div class="quick-nav">
+      <router-link to="/friends" class="nav-item active">
+        <el-icon><User /></el-icon>
+        好友列表
+        <el-badge v-if="friendCount > 0" :value="friendCount" type="primary" />
+      </router-link>
+      <router-link to="/friends/requests" class="nav-item">
+        <el-icon><Bell /></el-icon>
+        好友请求
+        <el-badge v-if="pendingCount > 0" :value="pendingCount" :is-dot="false" />
+      </router-link>
+      <router-link to="/friends/recommendations" class="nav-item">
+        <el-icon><Star /></el-icon>
+        推荐好友
+      </router-link>
+    </div>
+
     <el-card>
       <template #header>
         <div class="card-header">
-          <span>我的好友</span>
+          <span>我的好友 ({{ friendCount }})</span>
           <el-input
             v-model="searchQuery"
-            placeholder="搜索好友"
-            style="width: 200px"
+            placeholder="搜索好友姓名或学号"
+            style="width: 220px"
             clearable
           >
             <template #prefix>
@@ -75,7 +93,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
+import { Search, User, Bell, Star } from '@element-plus/icons-vue'
 import request from '@/api/request'
 import dayjs from 'dayjs'
 
@@ -86,7 +104,11 @@ const searchQuery = ref('')
 const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
+const pendingCount = ref(0)
 const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+
+// 好友数量
+const friendCount = computed(() => friends.value.length)
 
 // 过滤后的好友列表
 const filteredFriends = computed(() => {
@@ -149,14 +171,57 @@ const removeFriend = async (friendshipId) => {
   }
 }
 
+// 获取待处理请求数量
+const fetchPendingCount = async () => {
+  try {
+    const { data } = await request.get('/api/v1/friendships/requests')
+    pendingCount.value = data.received?.length || 0
+  } catch (error) {
+    console.error('获取请求数量失败', error)
+  }
+}
+
 onMounted(() => {
   fetchFriends()
+  fetchPendingCount()
 })
 </script>
 
 <style scoped lang="scss">
 .friends-container {
   padding: 20px;
+}
+
+.quick-nav {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #606266;
+    font-size: 14px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      color: #409eff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &.router-link-exact-active,
+    &.active {
+      background: #409eff;
+      color: #fff;
+    }
+  }
 }
 
 .card-header {
