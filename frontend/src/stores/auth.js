@@ -44,7 +44,16 @@ export const useAuthStore = defineStore('auth', () => {
   const login = async (credentials) => {
     try {
       loading.value = true
-      const response = await http.post('/api/v1/auth/login', credentials)
+      // 登录使用表单数据格式
+      const formData = new URLSearchParams()
+      formData.append('username', credentials.username)
+      formData.append('password', credentials.password)
+
+      const response = await http.post('/api/v1/auth/login', formData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
       
       if (response.code === 200) {
         const { access_token, user: userData } = response.data
@@ -125,8 +134,14 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
   
+  // 清除认证状态（内部使用，不显示消息）
+  const clearAuthState = () => {
+    setToken('')
+    setUser(null)
+  }
+
   // 登出
-  const logout = async () => {
+  const logout = async (showMessage = true) => {
     try {
       // 调用登出API
       if (token.value) {
@@ -136,9 +151,10 @@ export const useAuthStore = defineStore('auth', () => {
       console.error('登出API调用失败:', error)
     } finally {
       // 清除本地状态
-      setToken('')
-      setUser(null)
-      ElMessage.success('已退出登录')
+      clearAuthState()
+      if (showMessage) {
+        ElMessage.success('已退出登录')
+      }
     }
   }
   
@@ -180,17 +196,18 @@ export const useAuthStore = defineStore('auth', () => {
     token,
     user,
     loading,
-    
+
     // 计算属性
     isAuthenticated,
     userType,
     userName,
     userId,
-    
+
     // 方法
     login,
     register,
     logout,
+    clearAuthState,
     fetchUserInfo,
     refreshToken,
     checkAuth,

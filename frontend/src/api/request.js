@@ -11,10 +11,8 @@ import router from '@/router'
 // 创建axios实例
 const request = axios.create({
   baseURL: 'http://localhost:8000',  // 修改为正确的后端地址
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  timeout: 30000
+  // 移除默认的Content-Type，让每个请求自己设置
 })
 
 // 请求拦截器
@@ -55,12 +53,29 @@ request.interceptors.response.use(
     
     // 业务错误处理
     if (data.code === 401) {
-      // token过期或无效
-      const authStore = useAuthStore()
-      authStore.logout()
-      router.push('/login')
-      ElMessage.error('登录已过期，请重新登录')
-      return Promise.reject(new Error('Unauthorized'))
+      // 检查错误信息，区分真正的token过期和其他认证失败
+      const errorMessage = data.message || ''
+      const isTokenExpired = errorMessage.includes('token') || errorMessage.includes('过期') || errorMessage.includes('expired')
+
+      const currentRoute = router.currentRoute.value
+      if (currentRoute.path !== '/login') {
+        if (isTokenExpired) {
+          // 真正的token过期
+          const authStore = useAuthStore()
+          authStore.logout() // 这里会显示"已退出登录"消息
+          router.push('/login')
+          ElMessage.error('登录已过期，请重新登录')
+        } else {
+          // 其他认证失败（可能是后端问题），不清除登录状态
+          ElMessage.warning('服务暂时不可用，请稍后重试')
+          console.warn('认证失败，但不是token过期:', errorMessage)
+        }
+      } else {
+        // 在登录页面时，只清除认证状态，不显示消息
+        const authStore = useAuthStore()
+        authStore.clearAuthState()
+      }
+      return Promise.reject(new Error(data.message || '认证失败'))
     }
     
     if (data.code === 403) {

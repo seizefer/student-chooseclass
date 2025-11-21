@@ -134,10 +134,32 @@ const handleLogin = async () => {
       } else {
         localStorage.removeItem('rememberedUsername')
       }
-      
-      // 登录成功，跳转到首页或重定向页面
-      const redirect = router.currentRoute.value.query.redirect || '/'
-      router.push(redirect)
+
+      // 登录成功，跳转到仪表盘页面
+      const redirect = router.currentRoute.value.query.redirect
+      const targetPath = (redirect && redirect !== '/login' && redirect !== '/register')
+        ? redirect
+        : '/app/dashboard'
+
+      console.log('🔐 登录成功!')
+      console.log('📊 用户信息:', result.data.user)
+      console.log('🎫 Token:', result.data.access_token ? '已设置' : '未设置')
+      console.log('🎯 准备跳转到:', targetPath)
+      console.log('🔍 当前认证状态:', authStore.isAuthenticated)
+
+      try {
+        await router.push(targetPath)
+        console.log('✅ 跳转完成，当前路由:', router.currentRoute.value.path)
+        console.log('📍 最终URL:', window.location.href)
+      } catch (navigationError) {
+        console.error('❌ 导航错误:', navigationError)
+        // 如果导航失败，强制跳转
+        console.log('🔄 尝试强制跳转...')
+        router.replace(targetPath)
+      }
+    } else {
+      // 登录失败，抛出错误让用户看到
+      throw new Error(result.message || '登录失败')
     }
   } catch (error) {
     console.error('登录失败:', error)

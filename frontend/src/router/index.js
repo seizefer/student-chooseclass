@@ -92,7 +92,7 @@ const routes = [
   {
     path: '/courses',
     component: Layout,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, title: '课程管理', icon: 'el-icon-reading' },
     children: [
       {
         path: '',
@@ -126,7 +126,7 @@ const routes = [
   {
     path: '/messages',
     component: Layout,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, title: '消息中心', icon: 'el-icon-message' },
     children: [
       {
         path: '',
@@ -151,7 +151,7 @@ const routes = [
   {
     path: '/transactions',
     component: Layout,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, title: '转账功能', icon: 'el-icon-money' },
     children: [
       {
         path: 'transfer',
@@ -192,7 +192,7 @@ const routes = [
   {
     path: '/friends',
     component: Layout,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, title: '好友系统', icon: 'el-icon-user' },
     children: [
       {
         path: '',
@@ -242,7 +242,7 @@ const routes = [
   {
     path: '/admin',
     component: Layout,
-    meta: { requiresAuth: true, requiresAdmin: true },
+    meta: { requiresAuth: true, requiresAdmin: true, title: '管理面板', icon: 'el-icon-setting' },
     children: [
       {
         path: '',

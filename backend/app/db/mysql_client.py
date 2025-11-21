@@ -186,7 +186,8 @@ class MySQLCommandLineClient:
                 conditions = []
                 for key, value in where.items():
                     if isinstance(value, str):
-                        conditions.append(f"{key} = '{value.replace('\'', '\'\'')}'")
+                        escaped_value = value.replace("'", "''")
+                        conditions.append(f"{key} = '{escaped_value}'")
                     elif isinstance(value, (int, float)):
                         conditions.append(f"{key} = {value}")
                     elif value is None:
@@ -226,13 +227,15 @@ class MySQLCommandLineClient:
             
             for value in data.values():
                 if isinstance(value, str):
-                    values.append(f"'{value.replace('\'', '\'\'')}'")
+                    escaped_value = value.replace("'", "''")
+                    values.append(f"'{escaped_value}'")
                 elif isinstance(value, (int, float)):
                     values.append(str(value))
                 elif value is None:
                     values.append("NULL")
                 else:
-                    values.append(f"'{str(value).replace('\'', '\'\'')}'")
+                    escaped_value = str(value).replace("'", "''")
+                    values.append(f"'{escaped_value}'")
             
             sql = f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join(values)});"
             
@@ -269,7 +272,8 @@ class MySQLCommandLineClient:
             set_clauses = []
             for key, value in data.items():
                 if isinstance(value, str):
-                    set_clauses.append(f"{key} = '{value.replace('\'', '\'\'')}'")
+                    escaped_value = value.replace("'", "''")
+                    set_clauses.append(f"{key} = '{escaped_value}'")
                 elif isinstance(value, (int, float)):
                     set_clauses.append(f"{key} = {value}")
                 elif value is None:
@@ -279,7 +283,8 @@ class MySQLCommandLineClient:
             where_clauses = []
             for key, value in where.items():
                 if isinstance(value, str):
-                    where_clauses.append(f"{key} = '{value.replace('\'', '\'\'')}'")
+                    escaped_value = value.replace("'", "''")
+                    where_clauses.append(f"{key} = '{escaped_value}'")
                 elif isinstance(value, (int, float)):
                     where_clauses.append(f"{key} = {value}")
                 elif value is None:
@@ -318,7 +323,8 @@ class MySQLCommandLineClient:
             where_clauses = []
             for key, value in where.items():
                 if isinstance(value, str):
-                    where_clauses.append(f"{key} = '{value.replace('\'', '\'\'')}'")
+                    escaped_value = value.replace("'", "''")
+                    where_clauses.append(f"{key} = '{escaped_value}'")
                 elif isinstance(value, (int, float)):
                     where_clauses.append(f"{key} = {value}")
                 elif value is None:

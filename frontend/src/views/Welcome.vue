@@ -10,19 +10,19 @@
       <p class="subtitle">前端已成功启动并连接！</p>
       
       <div class="features">
-        <div class="feature-item">
+        <div class="feature-item clickable" @click="goToCourses">
           <el-icon><Star /></el-icon>
           <span>课程管理</span>
         </div>
-        <div class="feature-item">
+        <div class="feature-item clickable" @click="goToFriends">
           <el-icon><User /></el-icon>
           <span>好友系统</span>
         </div>
-        <div class="feature-item">
+        <div class="feature-item clickable" @click="goToMessages">
           <el-icon><ChatLineRound /></el-icon>
           <span>消息通信</span>
         </div>
-        <div class="feature-item">
+        <div class="feature-item clickable" @click="goToTransactions">
           <el-icon><Money /></el-icon>
           <span>转账功能</span>
         </div>
@@ -78,6 +78,23 @@ const goToRegister = () => {
   router.push('/register')
 }
 
+// 功能模块跳转
+const goToCourses = () => {
+  router.push('/courses')
+}
+
+const goToFriends = () => {
+  router.push('/friends')
+}
+
+const goToMessages = () => {
+  router.push('/messages')
+}
+
+const goToTransactions = () => {
+  router.push('/transactions/transfer')
+}
+
 onMounted(() => {
   checkBackendStatus()
 })
@@ -131,10 +148,24 @@ h1 {
   padding: 20px;
   border-radius: 10px;
   background: #f8f9fa;
-  transition: transform 0.3s ease;
-  
+  transition: all 0.3s ease;
+
   &:hover {
     transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      background: #e9ecef;
+      border: 2px solid #409eff;
+    }
+
+    &:active {
+      transform: translateY(-2px);
+    }
   }
   
   .el-icon {

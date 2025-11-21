@@ -18,11 +18,11 @@ def test_login():
     }
     
     try:
-        # 发送登录请求
+        # 发送登录请求 (使用表单数据格式)
         response = requests.post(
             "http://localhost:8000/api/v1/auth/login",
-            json=login_data,
-            headers={"Content-Type": "application/json"}
+            data=login_data,
+            headers={"Content-Type": "application/x-www-form-urlencoded"}
         )
         
         print(f"状态码: {response.status_code}")

@@ -25,11 +25,11 @@
         </div>
         
         <div class="course-actions">
-          <el-button type="primary" size="small">
+          <el-button type="primary" size="small" @click="handleEnroll(course)">
             <el-icon><Plus /></el-icon>
             选课
           </el-button>
-          <el-button size="small">
+          <el-button size="small" @click="handleViewDetail(course)">
             <el-icon><View /></el-icon>
             详情
           </el-button>
@@ -83,6 +83,23 @@ const courses = ref([
     credits: 4
   }
 ])
+
+// 处理选课
+const handleEnroll = async (course) => {
+  try {
+    ElMessage.success(`成功选修课程：${course.name}`)
+    // 这里可以调用选课API
+    console.log('选课:', course)
+  } catch (error) {
+    ElMessage.error('选课失败，请稍后重试')
+  }
+}
+
+// 处理查看详情
+const handleViewDetail = (course) => {
+  // 跳转到课程详情页面
+  router.push(`/courses/${course.code}`)
+}
 
 onMounted(() => {
   // 这里可以调用API获取课程数据

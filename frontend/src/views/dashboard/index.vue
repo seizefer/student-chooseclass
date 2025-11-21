@@ -20,7 +20,7 @@
     <!-- 统计卡片 -->
     <el-row :gutter="24" class="stats-row">
       <el-col :xs="24" :sm="12" :lg="6">
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="goToCourses">
           <div class="stat-icon courses">
             <el-icon><Reading /></el-icon>
           </div>
@@ -32,7 +32,7 @@
       </el-col>
 
       <el-col :xs="24" :sm="12" :lg="6">
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="goToFriends">
           <div class="stat-icon friends">
             <el-icon><User /></el-icon>
           </div>
@@ -44,7 +44,7 @@
       </el-col>
 
       <el-col :xs="24" :sm="12" :lg="6">
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="goToMessages">
           <div class="stat-icon messages">
             <el-icon><ChatLineRound /></el-icon>
           </div>
@@ -56,7 +56,7 @@
       </el-col>
 
       <el-col :xs="24" :sm="12" :lg="6">
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="goToTransactions">
           <div class="stat-icon balance">
             <el-icon><Wallet /></el-icon>
           </div>
@@ -127,7 +127,7 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">最新消息</h3>
-            <el-link type="primary" @click="$router.push('/messages/inbox')">查看全部</el-link>
+            <el-link type="primary" @click="$router.push('/messages')">查看全部</el-link>
           </div>
           <div class="messages-list">
             <div
@@ -229,12 +229,29 @@ const handleQuickAction = (path) => {
 
 // 查看课程详情
 const viewCourseDetail = (courseId) => {
-  router.push(`/courses/detail/${courseId}`)
+  router.push(`/courses/${courseId}`)
 }
 
 // 查看消息详情
 const viewMessage = (messageId) => {
   router.push(`/messages/${messageId}`)
+}
+
+// 导航到不同页面
+const goToCourses = () => {
+  router.push('/courses/my-courses')
+}
+
+const goToFriends = () => {
+  router.push('/friends')
+}
+
+const goToMessages = () => {
+  router.push('/messages')
+}
+
+const goToTransactions = () => {
+  router.push('/transactions')
 }
 
 // 获取课程状态类型
@@ -339,9 +356,14 @@ const loadDashboardData = async () => {
 
 // 组件挂载
 onMounted(() => {
+  console.log('📊 Dashboard组件已挂载!')
+  console.log('👤 当前用户信息:', authStore.user)
+  console.log('🔑 认证状态:', authStore.isAuthenticated)
+  console.log('🎫 Token存在:', !!authStore.token)
+
   loadDashboardData()
   updateCurrentTime()
-  
+
   // 每分钟更新一次时间
   setInterval(updateCurrentTime, 60000)
 })
@@ -407,7 +429,16 @@ onMounted(() => {
   gap: 16px;
   box-shadow: var(--shadow-base);
   transition: transform 0.3s ease;
-  
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+  }
+
   &:hover {
     transform: translateY(-2px);
   }

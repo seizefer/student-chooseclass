@@ -12,14 +12,20 @@ class Token(BaseModel):
     token_type: str = "bearer"
     expires_in: int
     user_type: str
-    
+    user: dict  # 添加用户信息字段
+
     class Config:
         schema_extra = {
             "example": {
                 "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                 "token_type": "bearer",
                 "expires_in": 691200,
-                "user_type": "student"
+                "user_type": "student",
+                "user": {
+                    "student_id": "20231001",
+                    "name": "张三",
+                    "user_type": "student"
+                }
             }
         }
 
