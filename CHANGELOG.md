@@ -18,6 +18,11 @@
   - 修复后端API响应数据结构问题 (添加user字段)
   - 添加默认测试账户支持 (admin/admin123, student1/123456)
 
+- ✅ **课程详情页字段映射修复**
+  - 修复前后端字段名不匹配问题 (course_name→name, teacher_name→instructor)
+  - 修复选课人数字段映射 (max_students→capacity, current_students→current_enrollment)
+  - 确保课程详情页正确显示后端返回的数据
+
 - ✅ **后端语法错误修复**
   - 修复f-string中反斜杠语法错误
   - 修复MySQL查询字符串转义问题

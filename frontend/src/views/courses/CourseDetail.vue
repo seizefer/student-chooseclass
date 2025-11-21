@@ -253,7 +253,15 @@ const fetchCourseDetail = async () => {
 
   try {
     const { data } = await request.get(`/api/v1/courses/${courseId}`)
-    course.value = data
+    // 映射后端字段到前端字段
+    course.value = {
+      ...data,
+      name: data.course_name,
+      instructor: data.teacher_name,
+      capacity: data.max_students,
+      current_enrollment: data.current_students,
+      location: data.schedule // 临时使用 schedule 作为上课地点
+    }
 
     // 检查是否已选修
     await checkEnrollmentStatus(courseId)
